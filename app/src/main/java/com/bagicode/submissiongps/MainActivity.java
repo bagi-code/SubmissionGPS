@@ -27,8 +27,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                /*
+                service 1
+                 */
                 startService(new Intent(getBaseContext(), getlocationa.class));
 
+                /*
+                service 2
+                 */
                 PersistableBundle bundle = new PersistableBundle();
                 bundle.putString("fld_btid", "1");
                 bundle.putString("fld_driverid", "1");
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setExtras(bundle);
 
                 // 1000 ms = 1 detik
-                builder.setPeriodic(300000);
+                builder.setPeriodic(3000);
                 JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
                 jobScheduler.schedule(builder.build());
 

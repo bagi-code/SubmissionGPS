@@ -11,6 +11,7 @@ import android.util.Log;
 
 //import com.dunex.tmsmobile.api.ApiService;
 //import com.dunex.tmsmobile.api.ApiUtils;
+import com.bagicode.submissiongps.tutorial1.GPSTracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -25,15 +26,20 @@ import com.google.android.gms.location.LocationServices;
 
 public class PushGpsJobService extends JobService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    public static final String TAG = PushGpsJobService.class.getSimpleName();
+//    public static final String TAG = PushGpsJobService.class.getSimpleName();
+    public static final String TAG = "tamvanbangetcui";
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
 
-    private Double dLat, dlong;
+    private Double dLat=0.01, dlong=0.01;
+
+    GPSTracker gps;
 
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "onStartJob() Executed");
+
+        gps = new GPSTracker(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -60,10 +66,17 @@ public class PushGpsJobService extends JobService implements GoogleApiClient.Con
     private void pushGpsJob(final JobParameters job) {
         Log.d(TAG, "Running");
 
-        dLat = job.getExtras().getDouble("lat");
-        dlong = job.getExtras().getDouble("lon");
+//        dLat = job.getExtras().getDouble("lat");
+//        dlong = job.getExtras().getDouble("lon");
 
-        Log.v("tamvanbangetcui","push gps lat "+dLat+" and long "+dlong);
+//        dLat = 0.01;
+//        dlong = 0.01;
+
+        double latitude = gps.getLatitude();
+        double longitude = gps.getLongitude();
+
+        Log.v("tamvanbangetcui","1 push gps lat "+dLat+" and long "+dlong);
+        Log.v("tamvanbangetcui","2 push gps lat "+latitude+" and long "+longitude);
 
 //        ApiService mAPIService = ApiUtils.getAPIService();
 //        mAPIService.postOrderGpsSubmit(
@@ -100,8 +113,6 @@ public class PushGpsJobService extends JobService implements GoogleApiClient.Con
 
         dLat = location.getLatitude();
         dlong = location.getLongitude();
-
-//        Log.e(TAG,"lat "+dLat+" and long "+dlong);
 
     }
 
